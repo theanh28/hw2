@@ -18,3 +18,13 @@ This code is compiled with ```openjdk 17.0.7 2023-04-18```. Please update your J
 
 ## New functionality
 Modularity for Transaction and ExpenseTrackerModel.
+
+### Extensibility - Transaction Filtering:
+
+- **Amount Filter**: 
+  - Users can now filter transactions based on a specific amount. 
+  - This helps in quickly identifying all transactions of a particular value.
+
+- **Category Filter**: 
+  - Users can filter transactions based on their category. 
+  - This is useful for users looking to review all transactions under a specific category, such as "food" or "travel".
