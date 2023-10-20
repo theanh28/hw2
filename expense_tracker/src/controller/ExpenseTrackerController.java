@@ -4,10 +4,11 @@ import view.ExpenseTrackerView;
 
 import java.util.List;
 
-
-
+import model.AmountFilter;
+import model.CategoryFilter;
 import model.ExpenseTrackerModel;
 import model.Transaction;
+import model.TransactionFilter;
 public class ExpenseTrackerController {
   
   private ExpenseTrackerModel model;
@@ -46,4 +47,24 @@ public class ExpenseTrackerController {
   }
   
   // Other controller methods
+  public boolean applyFilter() {
+    TransactionFilter filter;
+    String selectedFilterType = view.getSelectedFilterType();
+    String filterValue = view.getFilterValue();
+    if (selectedFilterType.equals("Amount")) {
+      double filterAmount = Double.parseDouble(filterValue);
+      if (!InputValidation.isValidAmount(filterAmount)) {
+        return false;
+      }
+      filter = new AmountFilter(filterAmount);
+    } else {
+      if (!InputValidation.isValidCategory(filterValue)) {
+        return false;
+      }
+      filter = new CategoryFilter(filterValue);
+    }
+    List<Transaction> filteredTransactions = filter.filter(model.getTransactions());
+    view.refreshTable(model.getTransactions(), filteredTransactions); // This will highlight the rows in green (you can add this functionality in the `refreshTable` method)
+    return true;
+  }
 }
