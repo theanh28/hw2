@@ -19,9 +19,17 @@ public class ExpenseTrackerModel {
     transactions.remove(t);
   }
 
-  // TODO: immute = return a copy.
+  // Returns copied transactions.
   public List<Transaction> getTransactions() {
-    return transactions;
+    List<Transaction> copiedList = new ArrayList<>();
+
+    // Copy the elements from the original list to the new list, with new copies created
+    // to prevent modification of the original.
+    for (Transaction transaction : transactions) {
+      copiedList.add(new Transaction(transaction.getAmount(), transaction.getCategory()));
+    }
+
+    return copiedList;
   }
 
 }
