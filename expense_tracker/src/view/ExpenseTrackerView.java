@@ -120,6 +120,8 @@ public class ExpenseTrackerView extends JFrame {
                 } else {
                     c.setBackground(table.getBackground());
                 }
+            } else if (row == transactions.size()) {
+              c.setBackground(table.getBackground());
             }
             return c;
         }
