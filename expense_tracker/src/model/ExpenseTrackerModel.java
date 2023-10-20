@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ExpenseTrackerModel {
 
-  public List<Transaction> transactions;
+  private List<Transaction> transactions;
 
   public ExpenseTrackerModel() {
     transactions = new ArrayList<>(); 
@@ -19,6 +19,7 @@ public class ExpenseTrackerModel {
     transactions.remove(t);
   }
 
+  // TODO: immute = return a copy.
   public List<Transaction> getTransactions() {
     return transactions;
   }
