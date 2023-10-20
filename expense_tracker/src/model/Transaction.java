@@ -20,18 +20,8 @@ public class Transaction {
     return amount;
   }
 
-  // TODO: prevent extern mod = remove.
-  public void setAmount(double amount) {
-    this.amount = amount;
-  }
-
   public String getCategory() {
     return category;
-  }
-
-  // TODO: prevent extern mod = remove.
-  public void setCategory(String category) {
-    this.category = category; 
   }
   
   public String getTimestamp() {
