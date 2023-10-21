@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -88,44 +90,49 @@ public class ExpenseTrackerView extends JFrame {
   }
 
   public void refreshTable(List<Transaction> transactions) {
-    refreshTable(transactions, null);
-  }
-
-  public void refreshTable(List<Transaction> transactions, List<Transaction> filteredTransactions) {
-      // Clear existing rows
-      model.setRowCount(0);
-      int rowNum = model.getRowCount();
-      double totalCost = 0;
-      // Calculate total cost
-      for(Transaction t : transactions) {
-        totalCost+=t.getAmount();
-      }
-      // Add rows from transactions list
-      for (Transaction t : transactions) {
-          model.addRow(new Object[]{rowNum+=1,t.getAmount(), t.getCategory(), t.getTimestamp()});
-      }
+    // Clear existing rows
+    model.setRowCount(0);
+    // Get row count
+    int rowNum = model.getRowCount();
+    double totalCost=0;
+    // Calculate total cost
+    for(Transaction t : transactions) {
+      totalCost+=t.getAmount();
+    }
+    // Add rows from transactions list
+    for(Transaction t : transactions) {
+      model.addRow(new Object[]{rowNum+=1,t.getAmount(), t.getCategory(), t.getTimestamp()}); 
+    }
       // Add total row
       Object[] totalRow = {"Total", null, null, totalCost};
       model.addRow(totalRow);
 
-      transactionsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                      boolean hasFocus, int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if (filteredTransactions != null && row < transactions.size()) {
-                Transaction currentTransaction = new Transaction((Double) table.getValueAt(row, 1), (String) table.getValueAt(row, 2));
-                if (filteredTransactions.contains(currentTransaction)) {
-                    c.setBackground(new Color(173, 255, 168)); // Light green
-                } else {
-                    c.setBackground(table.getBackground());
-                }
-            } else if (row == transactions.size()) {
-              c.setBackground(table.getBackground());
-            }
-            return c;
-        }
-      });
+    // Fire table update
+    transactionsTable.updateUI();
+
+  }  
+
+  public void refreshTable(List<Transaction> transactions, List<Transaction> filteredTransactions) {
+    transactionsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                    boolean hasFocus, int row, int column) {
+          Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+          if (filteredTransactions != null && row < transactions.size()) {
+              Transaction currentTransaction = new Transaction((Double) table.getValueAt(row, 1), (String) table.getValueAt(row, 2));
+              if (filteredTransactions.contains(currentTransaction)) {
+                  c.setBackground(new Color(173, 255, 168)); // Light green
+              } else {
+                  c.setBackground(table.getBackground());
+              }
+          } else if (row == transactions.size()) {
+            c.setBackground(table.getBackground());
+          }
+          return c;
+      }
+    });
+
+    refreshTable(transactions);
   }
     
   public JButton getAddTransactionBtn() {
