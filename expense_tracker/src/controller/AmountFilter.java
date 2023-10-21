@@ -1,7 +1,9 @@
-package model;
+package controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import model.Transaction;
 
 /**
  * This class represents a filter based on the transaction amount.

@@ -4,11 +4,8 @@ import view.ExpenseTrackerView;
 
 import java.util.List;
 
-import model.AmountFilter;
-import model.CategoryFilter;
 import model.ExpenseTrackerModel;
 import model.Transaction;
-import model.TransactionFilter;
 public class ExpenseTrackerController {
   
   private ExpenseTrackerModel model;
